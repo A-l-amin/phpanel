@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DX VPN Admin</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Dynamically configure Tailwind CSS
+      tailwind.config = {
+        darkMode: 'class', // Enable dark mode with a class
+        theme: {
+          extend: {
+            colors: {
+              // These will be overridden by the ThemeContext for dynamic theming
+              primary: {
+                DEFAULT: 'var(--color-primary-default)',
+                light: 'var(--color-primary-light)',
+                dark: 'var(--color-primary-dark)',
+              },
+              accent: {
+                DEFAULT: 'var(--color-accent-default)',
+                light: 'var(--color-accent-light)',
+                dark: 'var(--color-accent-dark)',
+              },
+              // Default futuristic dark/light theme colors
+              darkBg: '#1a1a2e',
+              darkCard: '#1f283d',
+              darkText: '#e0e0e0',
+              darkBorder: '#3f4b63',
+              lightBg: '#f0f2f5',
+              lightCard: '#ffffff',
+              lightText: '#333333',
+              lightBorder: '#e0e0e0',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['Fira Code', 'monospace'],
+            },
+          },
+        },
+      }
+    </script>
+    <style>
+      /* Ensure default theme variables are set for initial load */
+      :root {
+        /* Default to light mode colors, overridden by .dark class or ThemeContext */
+        --color-primary-default: #8b5cf6; /* Purple 500 */
+        --color-primary-light: #a78bfa; /* Purple 400 */
+        --color-primary-dark: #7c3aed; /* Purple 600 */
+        --color-accent-default: #00BFFF; /* Neon Cyan */
+        --color-accent-light: #33dfff; /* Lighter Neon Cyan */
+        --color-accent-dark: #00aacc; /* Darker Neon Cyan */
+      }
+      .dark {
+        --color-primary-default: #8b5cf6; /* Purple 500 */
+        --color-primary-light: #a78bfa; /* Purple 400 */
+        --color-primary-dark: #7c3aed; /* Purple 600 */
+        --color-accent-default: #00BFFF; /* Neon Cyan */
+        --color-accent-light: #33dfff; /* Lighter Neon Cyan */
+        --color-accent-dark: #00aacc; /* Darker Neon Cyan */
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-darkBg text-darkText transition-colors duration-300">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -21,6 +21,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
     try {
       const user = await login(username, password);
       onLoginSuccess(user);
@@ -35,6 +36,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-darkBg text-darkText p-4">
       <div className="w-full max-w-md bg-darkCard rounded-xl shadow-2xl border border-darkBorder p-8 space-y-6">
+        
+        {/* Logo + Title */}
         <div className="flex flex-col items-center">
           {theme.logoUrl && (
             <img src={theme.logoUrl} alt="DX VPN Logo" className="h-24 w-auto mb-4" />
@@ -43,7 +46,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <p className="text-gray-400 mt-2">Sign in to your account</p>
         </div>
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
+          
+          {/* Username */}
           <Input
             id="username"
             label="Username"
@@ -54,12 +60,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             required
             autoComplete="username"
             icon={
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 
+                     20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 
+                     21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
               </svg>
             }
           />
 
+          {/* Password with KEY ICON + Eye Toggle */}
           <Input
             id="password"
             label="Password"
@@ -70,46 +81,72 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
             required
             autoComplete="current-password"
             icon={
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="focus:outline-none"
-              >
-                {showPassword ? (
-                  // Eye-Off Icon
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round"
-                      d="M3.98 8.223A10.477 10.477 0 0 0 1.5 12c1.396 4.5 5.635 7.5 10.5 7.5 
-                        1.933 0 3.748-.45 5.355-1.253M6.228 6.228 
-                        A10.45 10.45 0 0 1 12 4.5c4.865 0 9.104 3 10.5 7.5a10.47 10.47 
-                        0 0 1-4.51 5.527M6.228 6.228 3 3m3.228 3.228 
-                        12.544 12.544m0 0L21 21" />
-                  </svg>
-                ) : (
-                  // Eye Icon
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.5 7.658 
-                        4.5 12 4.5c4.342 0 8.577 3 9.964 7.183a1.012 
-                        1.012 0 0 1 0 .639C20.577 16.5 16.342 
-                        19.5 12 19.5c-4.342 0-8.577-3-9.964-7.178Z" />
-                    <path strokeLinecap="round" strokeLinejoin="round"
-                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  </svg>
-                )}
-              </button>
+              <div className="flex items-center gap-2">
+                {/* KEY ICON */}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"
+                  className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                    d="M15.75 5.25a4.5 4.5 0 1 1-7.5 0 4.5 4.5 0 0 1 
+                       7.5 0ZM21 21l-4.5-4.5m0 0a7.5 7.5 0 1 0-10.606-10.606A7.5 
+                       7.5 0 0 0 16.5 16.5Z" />
+                </svg>
+
+                {/* Eye Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="focus:outline-none"
+                >
+                  {showPassword ? (
+                    // Eye-Off Icon
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                      viewBox="0 0 24 24" strokeWidth="1.5"
+                      stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 0 0 1.5 
+                           12c1.396 4.5 5.635 7.5 10.5 
+                           7.5 1.933 0 3.748-.45 
+                           5.355-1.253M6.228 6.228A10.45 10.45 
+                           0 0 1 12 4.5c4.865 0 9.104 
+                           3 10.5 7.5a10.47 10.47 0 0 
+                           1-4.51 5.527M6.228 6.228L3 
+                           3m3.228 3.228 12.544 12.544m0 
+                           0L21 21" />
+                    </svg>
+                  ) : (
+                    // Eye Icon
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                      viewBox="0 0 24 24" strokeWidth="1.5"
+                      stroke="currentColor" className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 0 
+                           1 0-.639C3.423 7.5 7.658 
+                           4.5 12 4.5c4.342 0 8.577 
+                           3 9.964 7.183a1.012 1.012 
+                           0 0 1 0 .639C20.577 
+                           16.5 16.342 19.5 12 
+                           19.5c-4.342 0-8.577-3-9.964-7.178Z" />
+                      <path strokeLinecap="round" strokeLinejoin="round"
+                        d="M15 12a3 3 0 1 1-6 0 3 
+                           3 0 0 1 6 0Z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             }
           />
 
+          {/* Error */}
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
+          {/* Submit Button */}
           <Button type="submit" loading={loading} className="w-full">
             {loading ? 'Logging in...' : 'Login'}
           </Button>
         </form>
 
+        {/* Reset Password Link */}
         <p className="text-center text-gray-500 text-sm">
           Forgot your password?{' '}
           <a href="#" className="text-primary hover:underline">

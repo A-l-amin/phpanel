@@ -1,95 +1,86 @@
 import React, { useState } from 'react';
-import { ShieldCheck, User, Lock, Eye, EyeOff } from 'lucide-react';
+import { Input } from './common/Input';
+import { Button } from './common/Button';
+import { login } from '../services/apiService';
+import { AuthUser } from '../types';
+import { useTheme } from '../contexts/ThemeContext';
 
-interface LoginProps {
-  onLogin: () => void;
+interface LoginPageProps {
+  onLoginSuccess: (user: AuthUser) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState('admin@dxvpn.com');
-  const [password, setPassword] = useState('password');
-  const [showPassword, setShowPassword] = useState(false);
+export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { theme } = useTheme(); // Use theme context for colors
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock validation
-    if (email && password) {
-      onLogin();
+    setLoading(true);
+    setError(null);
+    try {
+      const user = await login(username, password);
+      onLoginSuccess(user);
+    } catch (err) {
+      setError('Invalid username or password. Please try again.');
+      console.error('Login failed:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-dark-bg relative overflow-hidden">
-       {/* Background decoration */}
-       <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary to-blue-600"></div>
-       
-       <div className="w-full max-w-md px-6">
-         <div className="flex flex-col items-center mb-8">
-            <ShieldCheck size={48} className="text-primary mb-4" />
-            <h1 className="text-3xl font-bold text-white tracking-wider">DX VPN</h1>
-         </div>
+    <div className="flex items-center justify-center min-h-screen bg-darkBg text-darkText p-4">
+      <div className="w-full max-w-md bg-darkCard rounded-xl shadow-2xl border border-darkBorder p-8 space-y-6">
+        <div className="flex flex-col items-center">
+          {theme.logoUrl && (
+            <img src={theme.logoUrl} alt="DX VPN Logo" className="h-24 w-auto mb-4" />
+          )}
+          <h2 className="text-3xl font-bold text-darkText">DX VPN Admin</h2>
+          <p className="text-gray-400 mt-2">Sign in to your account</p>
+        </div>
 
-         <div className="bg-dark-card rounded-2xl p-8 shadow-2xl border border-gray-800">
-            <div className="flex justify-center mb-6">
-                <ShieldCheck size={40} className="text-primary" />
-            </div>
-            <h2 className="text-2xl font-bold text-center text-white mb-8">Admin Sign In</h2>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                    <div className="relative">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                            <User size={20} />
-                        </div>
-                        <input 
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full bg-dark-input border border-transparent focus:border-primary rounded-lg py-3 pl-10 pr-4 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                            placeholder="Enter your email"
-                        />
-                    </div>
-                </div>
-
-                <div className="space-y-2">
-                    <div className="relative">
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                            <Lock size={20} />
-                        </div>
-                        <input 
-                            type={showPassword ? "text" : "password"}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-dark-input border border-transparent focus:border-primary rounded-lg py-3 pl-10 pr-12 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                            placeholder="Enter your password"
-                        />
-                        <button 
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
-                        >
-                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                        </button>
-                    </div>
-                </div>
-
-                <button 
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primaryHover text-white font-bold py-3 rounded-lg transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)]"
-                >
-                    Sign In
-                </button>
-
-                <div className="text-center">
-                    <a href="#" className="text-primary hover:text-primaryHover text-sm font-medium">
-                        Forgot Password?
-                    </a>
-                </div>
-            </form>
-         </div>
-       </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            id="username"
+            label="Username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="adminme"
+            required
+            autoComplete="username"
+            icon={
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" /></svg>
+            }
+          />
+          <Input
+            id="password"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="admin123"
+            required
+            autoComplete="current-password"
+            icon={
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 1.5h.75l1.5 1.5 1.5-1.5h.75l1.5 1.5 1.5-1.5h.75l1.5 1.5 1.5-1.5h.75M12 12.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" /></svg>
+            }
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <Button type="submit" loading={loading} className="w-full">
+            {loading ? 'Logging in...' : 'Login'}
+          </Button>
+        </form>
+        <p className="text-center text-gray-500 text-sm">
+          Forgot your password?{' '}
+          <a href="#" className="text-primary hover:underline">
+            Reset it
+          </a>
+        </p>
+      </div>
     </div>
   );
 };
-
-export default Login;
